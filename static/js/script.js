@@ -178,10 +178,17 @@ function configurarChat() {
         body: JSON.stringify({ message: texto }),
       });
 
-      const data = await response.json();
+      const rawText = await response.text();
+      let data = {};
+      try {
+        data = JSON.parse(rawText);
+      } catch (_) {
+        data = { error: `O servidor demorou para responder (HTTP ${response.status}). Tente enviar novamente.` };
+      }
+
       const corpoBot = balaoBot.querySelector(".message-body");
 
-      if (response.ok) {
+      if (response.ok && data.response) {
         corpoBot.innerHTML = formatarTextoEstruturado(data.response);
       } else {
         corpoBot.textContent =

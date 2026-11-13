@@ -61,10 +61,15 @@ db = SQLAlchemy(app)
 # ---------------------------------------------------------------------------
 # Configuração da API Oficial do Google Gemini (SDK atual: google-genai)
 # ---------------------------------------------------------------------------
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-4-hydrogen")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-4-hydrogen").strip()
 
-gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
+
+def obter_cliente_gemini():
+    """Inicializa o cliente Gemini limpando eventuais espaços ou aspas na chave."""
+    api_key = (os.environ.get("GEMINI_API_KEY") or "").strip().strip('"').strip("'")
+    if not api_key:
+        return None
+    return genai.Client(api_key=api_key)
 
 SYSTEM_INSTRUCTION_TEA = """Você é um tutor e assistente de estudos projetado especificamente para estudantes com TEA (Transtorno do Espectro Autista). Responda sempre em português brasileiro.
 
@@ -277,11 +282,12 @@ def clear_history():
 @app.route("/chat", methods=["POST"])
 @login_required
 def chat():
+    gemini_client = obter_cliente_gemini()
     if not gemini_client:
         return (
             jsonify(
                 {
-                    "error": "A chave GEMINI_API_KEY não está configurada no servidor."
+                    "error": "A chave GEMINI_API_KEY não está configurada nas variáveis de ambiente do Render."
                 }
             ),
             500,
@@ -318,19 +324,45 @@ def chat():
     else:
         prompt_completo = user_message
 
-    try:
-        interaction = gemini_client.interactions.create(
-            model=GEMINI_MODEL,
-            input=prompt_completo,
-            system_instruction=SYSTEM_INSTRUCTION_TEA,
-        )
-        bot_reply = (interaction.output_text or "").strip()
-        if not bot_reply:
-            bot_reply = (
-                "Não consegui gerar uma explicação neste momento. "
-                "Por favor, reformule sua pergunta em uma frase direta."
-            )
+    modelos_tentativa = [GEMINI_MODEL]
+    if "gemini-3.5-flash-lite" not in modelos_tentativa:
+        modelos_tentativa.append("gemini-3.5-flash-lite")
 
+    bot_reply = None
+    ultimo_erro = None
+
+    for modelo_atual in modelos_tentativa:
+        try:
+            nivel_pensamento = (
+                "minimal" if "flash-lite" in modelo_atual else "low"
+            )
+            interaction = gemini_client.interactions.create(
+                model=modelo_atual,
+                input=prompt_completo,
+                system_instruction=SYSTEM_INSTRUCTION_TEA,
+                generation_config={"thinking_level": nivel_pensamento},
+            )
+            texto = (interaction.output_text or "").strip()
+            if texto:
+                bot_reply = texto
+                break
+        except Exception as model_exc:
+            ultimo_erro = model_exc
+            print(f"[AVISO GEMINI - {modelo_atual}]: {model_exc}")
+            continue
+
+    if not bot_reply:
+        print(f"[ERRO GEMINI FINAL]: {ultimo_erro}")
+        return (
+            jsonify(
+                {
+                    "error": "Não foi possível obter resposta da IA no momento. Verifique se a GEMINI_API_KEY está ativa no Render."
+                }
+            ),
+            500,
+        )
+
+    try:
         registro = ChatMessage(
             user_id=user_id,
             user_message=user_message,
@@ -349,14 +381,15 @@ def chat():
 
     except Exception as exc:
         db.session.rollback()
-        print(f"[ERRO GEMINI / POSTGRESQL]: {exc}")
+        print(f"[ERRO POSTGRESQL]: {exc}")
         return (
             jsonify(
                 {
-                    "error": "Ocorreu um erro ao comunicar com o assistente de IA. Tente novamente em instantes."
+                    "response": bot_reply,
+                    "timestamp": datetime.now(timezone.utc).strftime("%H:%M"),
                 }
             ),
-            500,
+            200,
         )
 
 
