@@ -37,9 +37,17 @@ if not database_url:
         "Configure uma URL de conexão PostgreSQL válida (Supabase ou Render)."
     )
 
-# Compatibilidade com provedores em nuvem que fornecem prefixo 'postgres://'
+# Compatibilidade com provedores em nuvem (Render / Supabase) e SQLAlchemy 2.1+
+try:
+    import psycopg2  # noqa: F401
+    pg_scheme = "postgresql+psycopg2://"
+except ImportError:
+    pg_scheme = "postgresql+psycopg://"
+
 if database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
+    database_url = database_url.replace("postgres://", pg_scheme, 1)
+elif database_url.startswith("postgresql://"):
+    database_url = database_url.replace("postgresql://", pg_scheme, 1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
