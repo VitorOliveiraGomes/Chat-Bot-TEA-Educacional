@@ -1,170 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastre-se - Chat TEA</title>
-  <link rel="icon" href="/static/imagens/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Criar Conta — Chat TEA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: var(--bg-main);
-      padding: 20px;
-    }
-
-    .auth-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-xl);
-      padding: 40px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: var(--shadow-lg);
-      text-align: center;
-    }
-
-    .auth-logo {
-      width: 52px;
-      height: 52px;
-      background: var(--brand-gradient);
-      border-radius: var(--radius-lg);
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      box-shadow: 0 8px 20px var(--brand-glow);
-    }
-
-    .auth-card h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .auth-card p.subtitle {
-      color: var(--text-secondary);
-      font-size: 0.92rem;
-      margin-bottom: 28px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background: var(--bg-surface-elevated);
-      color: var(--text-primary);
-      font-size: 0.95rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-
-    .form-input:focus {
-      border-color: var(--brand-primary);
-      box-shadow: 0 0 0 3px var(--brand-glow);
-    }
-
-    .auth-btn {
-      width: 100%;
-      background: var(--brand-gradient);
-      color: white;
-      border: none;
-      padding: 13px;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      margin-top: 10px;
-      box-shadow: 0 4px 14px var(--brand-glow);
-      transition: all 0.2s;
-    }
-
-    .auth-btn:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
-
-    .auth-footer {
-      margin-top: 24px;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-
-    .auth-footer a {
-      color: #6366f1;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .auth-footer a:hover {
-      text-decoration: underline;
-    }
-
-    .error-banner {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid var(--accent-rose);
-      color: var(--accent-rose);
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      margin-bottom: 18px;
-      font-size: 0.88rem;
-    }
-  </style>
 </head>
-<body class="tema-escuro">
-  <div class="auth-card">
-    <div class="auth-logo">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-      </svg>
+<body class="tema-escuro auth-page">
+  <main class="auth-container">
+    <div class="auth-card">
+      <div class="brand-logo auth-logo" aria-hidden="true">TEA</div>
+      <h1 class="auth-title">Criar Conta</h1>
+      <p class="auth-description">
+        Cadastre-se para salvar seu histórico de estudos na nuvem.
+      </p>
+
+      {% if error %}
+      <div class="alert-error" role="alert">{{ error }}</div>
+      {% endif %}
+      <div id="auth-alert" class="alert-error" role="alert" hidden></div>
+
+      <form id="register-form" method="POST" action="{{ url_for('register') }}" class="auth-form">
+        <div class="field-group">
+          <label for="username">Escolha um nome de usuário</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Ex: estudante_lucas"
+            minlength="3"
+            maxlength="40"
+            autocomplete="username"
+            required
+            autofocus
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="password">Crie uma senha (mínimo de 8 caracteres)</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Mínimo de 8 caracteres"
+            minlength="8"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-primary btn-block" id="btn-submit">
+          Cadastrar e Entrar
+        </button>
+      </form>
+
+      <p class="auth-switch">
+        Já possui uma conta?
+        <a href="{{ url_for('login') }}">Fazer login</a>
+      </p>
     </div>
-    <h1>Criar uma Conta</h1>
-    <p class="subtitle">Cadastre-se para começar a estudar</p>
-
-    {% if error %}
-      <div class="error-banner">{{ error }}</div>
-    {% endif %}
-
-    <form method="POST" action="/register">
-      <div class="form-group">
-        <label for="username">Nome de Usuário</label>
-        <input type="text" id="username" name="username" class="form-input" placeholder="Escolha um nome" required autofocus />
-      </div>
-
-      <div class="form-group">
-        <label for="password">Senha (mínimo 8 caracteres, com letras e números)</label>
-        <input type="password" id="password" name="password" minlength="8" maxlength="50" class="form-input" placeholder="Ex: Estudo2024" required />
-      </div>
-
-      <button type="submit" class="auth-btn">Criar Conta</button>
-    </form>
-
-    <div class="auth-footer">
-      Já tem uma conta? <a href="/login">Fazer login</a>
-    </div>
-  </div>
+  </main>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

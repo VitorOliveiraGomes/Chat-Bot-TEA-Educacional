@@ -1,172 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat TEA - Assistente Educacional</title>
-  <link rel="icon" href="/static/imagens/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Chat TEA — Ambiente de Estudos</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body class="tema-escuro">
-
-  <div class="app-container">
-
-    <!-- SIDEBAR LATERAL FIXA E MINIMALISTA -->
-    <aside class="sidebar" id="historico-sidebar">
-      <div class="brand-header">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-          </svg>
+  <div class="app-layout">
+    <!-- Barra Lateral Previsível e Sem Poluição Visual -->
+    <aside class="sidebar" id="sidebar" aria-label="Menu lateral">
+      <div class="sidebar-header">
+        <div class="brand-logo" aria-hidden="true">TEA</div>
+        <div>
+          <h1 class="brand-title">Chat TEA</h1>
+          <p class="brand-subtitle">Estudo Guiado Passo a Passo</p>
         </div>
-        <div class="brand-title">Chat TEA</div>
-        <div class="brand-badge">Gemini</div>
       </div>
 
-      <button id="btn-nova-conversa">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        Nova Conversa
-      </button>
+      <div class="user-card">
+        <span class="user-label">Estudante conectado</span>
+        <strong class="user-name">{{ username }}</strong>
+      </div>
 
-      <div class="history-section">
-        <div class="history-title">Conversas Recentes</div>
-        <ul id="lista-historico">
-          <li style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">Carregando histórico...</li>
-        </ul>
+      <div class="sidebar-section">
+        <h2 class="section-title">Sugestões de Estudo</h2>
+        <button type="button" class="prompt-chip" data-prompt="Explique as 3 Leis de Newton passo a passo com um exemplo do cotidiano.">
+          Leis de Newton em passos
+        </button>
+        <button type="button" class="prompt-chip" data-prompt="Como resolver uma equação do segundo grau passo a passo?">
+          Equação do 2º grau
+        </button>
+        <button type="button" class="prompt-chip" data-prompt="Monte uma rotina de estudos de 45 minutos dividida em blocos curtos.">
+          Rotina de estudos de 45 min
+        </button>
+        <button type="button" class="prompt-chip" data-prompt="Explique o que é fotossíntese de forma literal e em etapas numeradas.">
+          Fotossíntese em etapas
+        </button>
       </div>
 
       <div class="sidebar-footer">
-        <button class="sidebar-btn" id="tema-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <span id="tema-label">Alternar Tema</span>
+        <button type="button" id="btn-theme" class="btn-secondary">
+          Alternar para Tema Claro
         </button>
-
-        <form action="/logout" method="POST" style="margin: 0;">
-          <button type="submit" class="sidebar-btn danger">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-            Sair da Conta
-          </button>
-        </form>
+        <button type="button" id="btn-clear-history" class="btn-secondary">
+          Limpar Histórico
+        </button>
+        <a href="{{ url_for('logout') }}" class="btn-danger">Sair da Conta</a>
       </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL (CHAT) -->
-    <main class="main-content">
-      
-      <!-- NAVBAR SUPERIOR -->
-      <nav class="top-navbar">
-        <div class="nav-left">
-          <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Abrir menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          <div class="status-badge">
-            <div class="status-dot"></div>
-            <span>Assistente Ativo</span>
-          </div>
+    <!-- Área Principal do Chat -->
+    <main class="chat-wrapper">
+      <header class="chat-header">
+        <button type="button" id="btn-mobile-menu" class="btn-mobile" aria-label="Abrir menu">
+          Menu
+        </button>
+        <div class="status-indicator">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Tutor Gemini ativo — Respostas literais e em tópicos</span>
         </div>
+      </header>
 
-        <div class="nav-actions">
-          <button class="nav-pill" id="btn-plano-estudos" title="Ver rotina personalizada">
-            Plano de Estudos
-          </button>
-          <button class="nav-pill" id="btn-dicas-tempo" title="Dicas de ritmo e horários">
-            Organização
-          </button>
-          <button class="nav-pill" id="btn-relatorio-mensal" title="Estatísticas dos últimos 30 dias">
-            Relatório
-          </button>
+      <section id="chat-messages" class="chat-messages" aria-live="polite">
+        <div class="welcome-card" id="welcome-card">
+          <h2>Olá, {{ username }}.</h2>
+          <p>
+            Este é o seu espaço calmo e previsível de estudos. Escreva sua dúvida abaixo e eu responderei de forma literal, direta e dividida em passos numerados.
+          </p>
         </div>
-      </nav>
+      </section>
 
-      <!-- ÁREA DE MENSAGENS -->
-      <div id="chat-box">
-        <div class="mensagem-boas-vindas">
-          <div class="welcome-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-            </svg>
-          </div>
-          <h3>Assistente Educacional</h3>
-          <p>Ambiente de estudos para tirar dúvidas com explicações estruturadas, claras e objetivas.</p>
-          
-          <div class="quick-prompts">
-            <button class="quick-prompt-btn" onclick="preencherPrompt('Explique as Leis de Newton passo a passo')">
-              Leis de Newton em etapas
-            </button>
-            <button class="quick-prompt-btn" onclick="preencherPrompt('Me ajude a organizar um roteiro de estudos')">
-              Roteiro de estudos
-            </button>
-            <button class="quick-prompt-btn" onclick="preencherPrompt('Como funciona a tabela periódica de forma simples?')">
-              Tabela Periódica explicada
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- BARRA DE INPUT MODERNA -->
-      <footer class="input-area">
-        <div class="input-box">
-          <input 
-            type="text" 
-            id="user-input" 
-            placeholder="Digite sua dúvida ou assunto de estudos..."
-            maxlength="400"
-            autocomplete="off"
+      <footer class="chat-input-bar">
+        <form id="chat-form" class="chat-form" autocomplete="off">
+          <label for="message-input" class="sr-only">Digite sua dúvida de estudo</label>
+          <input
+            type="text"
+            id="message-input"
+            name="message"
+            placeholder="Digite sua dúvida de forma direta (ex: Como somar frações?)..."
+            maxlength="800"
+            required
           />
-
-          <div class="input-actions">
-            <input type="file" id="file-input" name="file" 
-                   accept=".txt,.pdf,.docx,.xlsx,.pptx,.jpg,.jpeg,.png" hidden />
-            <label for="file-input" class="attach-btn" title="Anexar arquivo de estudo (PDF ou Texto)">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
-              </svg>
-            </label>
-
-            <button id="btn-enviar" title="Enviar mensagem">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="file-preview" id="file-preview-area" style="display: none;">
-          <span>Arquivo selecionado:</span>
-          <strong id="file-name">Nenhum</strong>
-          <button onclick="removerArquivo()" style="background:none;border:none;color:var(--accent-rose);cursor:pointer;margin-left:6px;font-weight:600;">Remover</button>
-        </div>
+          <button type="submit" id="btn-send" class="btn-primary">
+            Enviar
+          </button>
+        </form>
       </footer>
-
     </main>
-
   </div>
 
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>

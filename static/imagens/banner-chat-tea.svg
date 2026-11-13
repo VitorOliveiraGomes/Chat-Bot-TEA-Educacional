@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#12161f"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo -->
+  <rect width="1200" height="360" rx="20" fill="url(#bgGrad)"/>
+  <rect x="2" y="2" width="1196" height="356" rx="18" fill="none" stroke="#2e384b" stroke-width="2"/>
+
+  <!-- Grade decorativa sutil -->
+  <g stroke="#1e293b" stroke-width="1" opacity="0.6">
+    <line x1="0" y1="90" x2="1200" y2="90"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="270" x2="1200" y2="270"/>
+    <line x1="300" y1="0" x2="300" y2="360"/>
+    <line x1="600" y1="0" x2="600" y2="360"/>
+    <line x1="900" y1="0" x2="900" y2="360"/>
+  </g>
+
+  <!-- Ícone TEA -->
+  <rect x="80" y="95" width="84" height="84" rx="18" fill="url(#accentGrad)"/>
+  <text x="122" y="149" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle">TEA</text>
+
+  <!-- Título e Subtítulo -->
+  <text x="190" y="132" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="44" font-weight="800" fill="#f8fafc">Chat TEA Educacional</text>
+  <text x="190" y="170" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" font-weight="400" fill="#94a3b8">
+    Assistente de estudos com comunicação literal, previsível e estruturada em passos
+  </text>
+
+  <!-- Badges de Tecnologia -->
+  <g transform="translate(190, 210)">
+    <rect x="0" y="0" width="150" height="38" rx="8" fill="#1e2636" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="75" y="24" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#edf2f7" text-anchor="middle">Google Gemini IA</text>
+
+    <rect x="166" y="0" width="165" height="38" rx="8" fill="#1e2636" stroke="#2e384b" stroke-width="1.5"/>
+    <text x="248" y="24" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#edf2f7" text-anchor="middle">Python + Flask</text>
+
+    <rect x="347" y="0" width="210" height="38" rx="8" fill="#1e2636" stroke="#2e384b" stroke-width="1.5"/>
+    <text x="452" y="24" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#edf2f7" text-anchor="middle">PostgreSQL (Supabase)</text>
+
+    <rect x="573" y="0" width="195" height="38" rx="8" fill="#1e2636" stroke="#38a169" stroke-width="1.5"/>
+    <text x="670" y="24" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#edf2f7" text-anchor="middle">Acessibilidade Cognitiva</text>
+  </g>
+</svg>

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%">
+  <!-- Janela Principal -->
+  <rect width="1200" height="680" rx="16" fill="#12161f" stroke="#2e384b" stroke-width="2"/>
+
+  <!-- Sidebar -->
+  <rect x="2" y="2" width="290" height="676" rx="14" fill="#1a202c"/>
+  <line x1="292" y1="2" x2="292" y2="678" stroke="#2e384b" stroke-width="1.5"/>
+
+  <!-- Logo Sidebar -->
+  <rect x="24" y="24" width="44" height="44" rx="8" fill="#3b82f6"/>
+  <text x="46" y="52" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">TEA</text>
+  <text x="80" y="44" font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="700" fill="#edf2f7">Chat TEA</text>
+  <text x="80" y="64" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#a0aec0">Estudo Guiado Passo a Passo</text>
+
+  <!-- Card Usuário -->
+  <rect x="24" y="90" width="244" height="58" rx="8" fill="#232b3a" stroke="#2e384b"/>
+  <text x="38" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="600" fill="#a0aec0">ESTUDANTE CONECTADO</text>
+  <text x="38" y="134" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#edf2f7">estudante_lucas</text>
+
+  <!-- Sugestões -->
+  <text x="24" y="182" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" fill="#a0aec0">SUGESTÕES DE ESTUDO</text>
+
+  <rect x="24" y="196" width="244" height="40" rx="8" fill="#232b3a" stroke="#3b82f6"/>
+  <text x="38" y="221" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#edf2f7">Leis de Newton em passos</text>
+
+  <rect x="24" y="246" width="244" height="40" rx="8" fill="#232b3a" stroke="#2e384b"/>
+  <text x="38" y="271" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#edf2f7">Equação do 2º grau</text>
+
+  <rect x="24" y="296" width="244" height="40" rx="8" fill="#232b3a" stroke="#2e384b"/>
+  <text x="38" y="321" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#edf2f7">Rotina de estudos de 45 min</text>
+
+  <rect x="24" y="346" width="244" height="40" rx="8" fill="#232b3a" stroke="#2e384b"/>
+  <text x="38" y="371" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#edf2f7">Fotossíntese em etapas</text>
+
+  <!-- Rodapé Sidebar -->
+  <line x1="24" y1="515" x2="268" y2="515" stroke="#2e384b"/>
+  <rect x="24" y="530" width="244" height="38" rx="8" fill="#232b3a" stroke="#2e384b"/>
+  <text x="146" y="554" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#edf2f7" text-anchor="middle">Alternar para Tema Claro</text>
+
+  <rect x="24" y="576" width="244" height="38" rx="8" fill="#232b3a" stroke="#2e384b"/>
+  <text x="146" y="600" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#edf2f7" text-anchor="middle">Limpar Histórico</text>
+
+  <rect x="24" y="622" width="244" height="38" rx="8" fill="none" stroke="#e53e3e"/>
+  <text x="146" y="646" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600" fill="#e53e3e" text-anchor="middle">Sair da Conta</text>
+
+  <!-- Header do Chat -->
+  <rect x="293" y="2" width="905" height="60" fill="#1a202c"/>
+  <line x1="293" y1="62" x2="1198" y2="62" stroke="#2e384b"/>
+  <circle cx="324" cy="32" r="6" fill="#38a169"/>
+  <text x="340" y="37" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#a0aec0">Tutor Gemini ativo — Respostas literais e em tópicos</text>
+
+  <!-- Mensagem do Usuário -->
+  <rect x="640" y="92" width="510" height="74" rx="12" fill="#2b6cb0"/>
+  <text x="660" y="116" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" fill="#dbeafe">Você</text>
+  <text x="1130" y="116" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#dbeafe" text-anchor="end">18:45</text>
+  <text x="660" y="144" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#ffffff">Explique a Primeira Lei de Newton passo a passo.</text>
+
+  <!-- Mensagem do Tutor TEA -->
+  <rect x="336" y="188" width="760" height="370" rx="12" fill="#1e2636" stroke="#2e384b" stroke-width="1.5"/>
+  <text x="360" y="216" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="600" fill="#a0aec0">Tutor TEA</text>
+  <text x="1072" y="216" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#a0aec0" text-anchor="end">18:45</text>
+
+  <text x="360" y="250" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#edf2f7">Vamos estudar a Primeira Lei de Newton (Lei da Inércia) em 3 passos diretos:</text>
+
+  <text x="360" y="290" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#60a5fa">Passo 1: O que a lei afirma</text>
+  <text x="360" y="314" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#edf2f7">- Um objeto parado permanece parado, a menos que uma força atue sobre ele.</text>
+  <text x="360" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#edf2f7">- Um objeto em movimento continua na mesma velocidade e em linha reta se nenhuma força o alterar.</text>
+
+  <text x="360" y="376" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#60a5fa">Passo 2: Exemplo concreto do cotidiano</text>
+  <text x="360" y="400" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#edf2f7">- Imagine um livro parado sobre uma mesa. Ele continuará parado até que alguém o empurre.</text>
+
+  <text x="360" y="440" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#60a5fa">Passo 3: Resumo objetivo</text>
+  <text x="360" y="464" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#edf2f7">- Inércia é a resistência que todo objeto possui contra mudanças no seu estado de movimento.</text>
+
+  <text x="360" y="516" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#a0aec0">Você gostaria de revisar algum destes 3 passos ou prefere resolver um exercício prático?</text>
+
+  <!-- Barra de Input -->
+  <line x1="293" y1="590" x2="1198" y2="590" stroke="#2e384b"/>
+  <rect x="336" y="608" width="690" height="48" rx="8" fill="#1a202c" stroke="#2e384b"/>
+  <text x="356" y="637" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#a0aec0">Digite sua dúvida de forma direta (ex: Como somar frações?)...</text>
+
+  <rect x="1040" y="608" width="110" height="48" rx="8" fill="#3b82f6"/>
+  <text x="1095" y="637" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Enviar</text>
+</svg>
