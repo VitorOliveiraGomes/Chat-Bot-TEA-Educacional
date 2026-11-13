@@ -12,6 +12,12 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase%20%2F%20Render-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/Licen%C3%A7a-MIT-10b981?style=for-the-badge)](LICENSE)
 
+<br />
+
+### 🌐 [Acesse e Teste Agora: chat-bot-educacional-main.onrender.com](https://chat-bot-educacional-main.onrender.com)
+
+[![Testar Aplicação Online](https://img.shields.io/badge/TESTAR%20AGORA%20ONLINE-Render%20Cloud-2563eb?style=for-the-badge&logo=render&logoColor=white)](https://chat-bot-educacional-main.onrender.com)
+
 </div>
 
 ---
@@ -21,9 +27,11 @@
 O **Chat TEA** foi projetado com foco em **acessibilidade cognitiva** e **redução de sobrecarga sensorial**. Diferente de chatbots genéricos que produzem blocos extensos de texto ou usam figuras de linguagem ambíguas, este assistente utiliza uma *System Instruction* especializada na API oficial do **Google Gemini** para garantir:
 
 - **Literalidade absoluta:** zero metáforas, ironias, duplo sentido ou gírias.
-- **Previsibilidade estrutural:** explicações sempre divididas em passos numerados (`Passo 1`, `Passo 2`, `Passo 3`) e tópicos curtos.
+- **Previsibilidade estrutural:** explicações de matérias divididas em passos numerados (`Passo 1`, `Passo 2`, `Passo 3`) e respostas instantâneas para interações sociais.
+- **Leitura de Arquivos de Estudo:** suporte integrado para envio e análise de arquivos **PDF (`.pdf`)**, **Word (`.docx`)**, **Excel (`.xlsx`)** e **Texto (`.txt`)**.
+- **Acompanhamento Pedagógico:** geração automática de **Plano de Estudos**, **Dicas de Organização** e **Relatório Mensal** de desempenho.
 - **Interface limpa e calma:** paleta de cores suaves (Temas Escuro e Claro), sem animações bruscas ou poluição visual.
-- **Persistência em nuvem:** histórico individualizado por estudante armazenado em banco de dados **PostgreSQL** (compatível com **Supabase** e **Render**).
+- **Persistência em nuvem:** histórico de conversas individualizado por estudante armazenado em banco de dados **PostgreSQL** (compatível com **Supabase** e **Render**).
 
 ---
 
