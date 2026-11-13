@@ -3,40 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat TEA — Ambiente de Estudos</title>
+  <title>Chat TEA — Assistente Educacional</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagens/logo.png') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body class="tema-escuro">
   <div class="app-layout">
-    <!-- Barra Lateral Previsível e Sem Poluição Visual -->
+    <!-- Barra Lateral com Logo, Nova Conversa e Histórico -->
     <aside class="sidebar" id="sidebar" aria-label="Menu lateral">
       <div class="sidebar-header">
-        <div class="brand-logo" aria-hidden="true">TEA</div>
+        <img
+          src="{{ url_for('static', filename='imagens/logo.png') }}"
+          alt="Logo Chat TEA"
+          class="brand-logo-img"
+        />
         <div>
           <h1 class="brand-title">Chat TEA</h1>
-          <p class="brand-subtitle">Estudo Guiado Passo a Passo</p>
+          <p class="brand-subtitle">Olá, {{ username }}</p>
         </div>
       </div>
 
-      <div class="user-card">
-        <span class="user-label">Estudante conectado</span>
-        <strong class="user-name">{{ username }}</strong>
-      </div>
+      <button type="button" id="btn-nova-conversa" class="btn-primary btn-new-chat">
+        + Nova Conversa
+      </button>
 
       <div class="sidebar-section">
-        <h2 class="section-title">Sugestões de Estudo</h2>
-        <button type="button" class="prompt-chip" data-prompt="Explique as 3 Leis de Newton passo a passo com um exemplo do cotidiano.">
-          Leis de Newton em passos
-        </button>
-        <button type="button" class="prompt-chip" data-prompt="Como resolver uma equação do segundo grau passo a passo?">
-          Equação do 2º grau
-        </button>
-        <button type="button" class="prompt-chip" data-prompt="Monte uma rotina de estudos de 45 minutos dividida em blocos curtos.">
-          Rotina de estudos de 45 min
-        </button>
-        <button type="button" class="prompt-chip" data-prompt="Explique o que é fotossíntese de forma literal e em etapas numeradas.">
-          Fotossíntese em etapas
-        </button>
+        <h2 class="section-title">Histórico de Conversas</h2>
+        <ul id="lista-historico" class="history-list">
+          <li class="history-empty">Carregando histórico...</li>
+        </ul>
       </div>
 
       <div class="sidebar-footer">
@@ -44,7 +39,7 @@
           Alternar para Tema Claro
         </button>
         <button type="button" id="btn-clear-history" class="btn-secondary">
-          Limpar Histórico
+          Apagar Todo o Histórico
         </button>
         <a href="{{ url_for('logout') }}" class="btn-danger">Sair da Conta</a>
       </div>
@@ -53,39 +48,95 @@
     <!-- Área Principal do Chat -->
     <main class="chat-wrapper">
       <header class="chat-header">
-        <button type="button" id="btn-mobile-menu" class="btn-mobile" aria-label="Abrir menu">
-          Menu
-        </button>
-        <div class="status-indicator">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>Tutor Gemini ativo — Respostas literais e em tópicos</span>
+        <div class="header-left">
+          <button type="button" id="btn-mobile-menu" class="btn-mobile" aria-label="Abrir menu">
+            Menu
+          </button>
+          <div class="status-indicator">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Tutor Ativo</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button type="button" id="btn-plano-estudos" class="header-pill">
+            Plano de Estudos
+          </button>
+          <button type="button" id="btn-dicas-tempo" class="header-pill">
+            Dicas de Estudos
+          </button>
+          <button type="button" id="btn-relatorio-mensal" class="header-pill">
+            Relatório Mensal
+          </button>
         </div>
       </header>
 
       <section id="chat-messages" class="chat-messages" aria-live="polite">
         <div class="welcome-card" id="welcome-card">
-          <h2>Olá, {{ username }}.</h2>
-          <p>
-            Este é o seu espaço calmo e previsível de estudos. Escreva sua dúvida abaixo e eu responderei de forma literal, direta e dividida em passos numerados.
-          </p>
+          <div class="welcome-top">
+            <img
+              src="{{ url_for('static', filename='imagens/logo.png') }}"
+              alt="Logo Chat TEA"
+              class="welcome-logo"
+            />
+            <div>
+              <h2>Olá, {{ username }}.</h2>
+              <p>
+                Envie sua dúvida ou anexe um arquivo (<strong>PDF, Word, Excel ou TXT</strong>) para receber explicações diretas e organizadas passo a passo.
+              </p>
+            </div>
+          </div>
+
+          <div class="quick-prompts">
+            <button type="button" class="prompt-chip" data-prompt="Explique as 3 Leis de Newton passo a passo com um exemplo prático.">
+              Leis de Newton em passos
+            </button>
+            <button type="button" class="prompt-chip" data-prompt="Como começar a programar em Python do zero?">
+              Básico de Python
+            </button>
+            <button type="button" class="prompt-chip" data-prompt="Como resolver uma equação do segundo grau passo a passo?">
+              Equação do 2º grau
+            </button>
+          </div>
         </div>
       </section>
 
       <footer class="chat-input-bar">
         <form id="chat-form" class="chat-form" autocomplete="off">
+          <input
+            type="file"
+            id="file-input"
+            name="file"
+            accept=".txt,.pdf,.docx,.xlsx"
+            hidden
+          />
+          <label
+            for="file-input"
+            class="btn-attach"
+            title="Anexar arquivo (.pdf, .docx, .xlsx, .txt)"
+          >
+            Anexar
+          </label>
+
           <label for="message-input" class="sr-only">Digite sua dúvida de estudo</label>
           <input
             type="text"
             id="message-input"
             name="message"
-            placeholder="Digite sua dúvida de forma direta (ex: Como somar frações?)..."
+            placeholder="Digite sua dúvida ou envie um arquivo (.pdf, .docx, .xlsx, .txt)..."
             maxlength="800"
-            required
           />
           <button type="submit" id="btn-send" class="btn-primary">
             Enviar
           </button>
         </form>
+
+        <div id="file-preview-bar" class="file-preview-bar" hidden>
+          <span>Arquivo anexado: <strong id="file-preview-name"></strong></span>
+          <button type="button" id="btn-remove-file" class="btn-remove-file">
+            Remover
+          </button>
+        </div>
       </footer>
     </main>
   </div>

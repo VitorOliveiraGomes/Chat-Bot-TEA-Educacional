@@ -4,12 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Entrar — Chat TEA</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagens/logo.png') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body class="tema-escuro auth-page">
   <main class="auth-container">
     <div class="auth-card">
-      <div class="brand-logo auth-logo" aria-hidden="true">TEA</div>
+      <img
+        src="{{ url_for('static', filename='imagens/logo.png') }}"
+        alt="Logo Chat TEA"
+        class="auth-logo-img"
+      />
       <h1 class="auth-title">Entrar no Chat TEA</h1>
       <p class="auth-description">
         Ambiente de estudos estruturado, calmo e sem distrações visuais.

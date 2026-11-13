@@ -1,3 +1,3 @@
-from Serv import db, User, ChatMessage
+from Serv import db, User, Conversation, ChatMessage
 
-__all__ = ["db", "User", "ChatMessage"]
+__all__ = ["db", "User", "Conversation", "ChatMessage"]
