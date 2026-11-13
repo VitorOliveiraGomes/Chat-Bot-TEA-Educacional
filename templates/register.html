@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,14 +8,11 @@
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagens/logo.png') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
+
 <body class="tema-escuro auth-page">
   <main class="auth-container">
     <div class="auth-card">
-      <img
-        src="{{ url_for('static', filename='imagens/logo.png') }}"
-        alt="Logo Chat TEA"
-        class="auth-logo-img"
-      />
+      <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo Chat TEA" class="auth-logo-img" />
       <h1 class="auth-title">Criar Conta</h1>
       <p class="auth-description">
         Cadastre-se para salvar seu histórico de estudos na nuvem.
@@ -28,17 +26,8 @@
       <form id="register-form" method="POST" action="{{ url_for('register') }}" class="auth-form">
         <div class="field-group">
           <label for="username">Escolha um nome de usuário</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Ex: estudante_lucas"
-            minlength="3"
-            maxlength="40"
-            autocomplete="username"
-            required
-            autofocus
-          />
+          <input type="text" id="username" name="username" placeholder="Ex: estudante_lucas" minlength="3"
+            maxlength="40" autocomplete="username" required autofocus />
         </div>
 
         <div class="field-group">
@@ -48,7 +37,7 @@
               type="password"
               id="password"
               name="password"
-              placeholder="Ex: Casa447405 (mínimo 8 caracteres)"
+              placeholder="Mínimo de 8 caracteres"
               minlength="8"
               autocomplete="new-password"
               required
@@ -62,20 +51,6 @@
               Mostrar
             </button>
           </div>
-          <small class="password-helper-text" id="password-strength-tip">
-            Formato aceito: pelo menos 8 caracteres (letras e números, ex: <strong>Casa447405</strong>).
-          </small>
-        </div>
-
-        <div class="field-group">
-          <label for="password_hint">Dica da senha (opcional — ajuda a lembrar depois)</label>
-          <input
-            type="text"
-            id="password_hint"
-            name="password_hint"
-            placeholder="Ex: Palavra Casa + números"
-            maxlength="120"
-          />
         </div>
 
         <button type="submit" class="btn-primary btn-block" id="btn-submit">
@@ -91,4 +66,5 @@
   </main>
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>

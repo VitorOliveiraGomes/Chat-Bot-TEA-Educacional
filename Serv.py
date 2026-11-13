@@ -98,7 +98,6 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(256), nullable=False)
-    password_hint = db.Column(db.String(120), nullable=True, default="")
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False
     )
@@ -172,11 +171,6 @@ class ChatMessage(db.Model):
 with app.app_context():
     db.create_all()
     try:
-        db.session.execute(
-            db.text(
-                "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hint VARCHAR(120) DEFAULT '';"
-            )
-        )
         db.session.execute(
             db.text(
                 "ALTER TABLE chat_messages ADD COLUMN IF NOT EXISTS conversation_id INTEGER REFERENCES conversations(id) ON DELETE CASCADE;"
@@ -332,23 +326,16 @@ def login():
     if not user:
         msg = (
             f"O usuário '{username}' ainda não possui cadastro. "
-            "Clique em 'Criar conta' abaixo para cadastrar este usuário e sua senha."
+            "Clique em 'Criar conta' abaixo para se cadastrar."
         )
         if request.is_json:
             return jsonify({"error": msg, "user_not_found": True}), 404
         return render_template("login.html", error=msg), 404
 
     if not check_password_hash(user.password_hash, password):
-        dica_salva = (user.password_hint or "").strip()
-        if dica_salva:
-            msg = f"Senha incorreta para '{user.username}'. Dica da sua senha: {dica_salva}"
-        else:
-            msg = (
-                f"Senha incorreta para '{user.username}'. "
-                "Dica: verifique letras maiúsculas/minúsculas (ex: Casa447405) ou use o botão 'Ver' para conferir o que digitou."
-            )
+        msg = "Nome de usuário ou senha incorretos."
         if request.is_json:
-            return jsonify({"error": msg, "hint": dica_salva}), 401
+            return jsonify({"error": msg}), 401
         return render_template("login.html", error=msg), 401
 
     session.clear()
@@ -358,37 +345,6 @@ def login():
     if request.is_json:
         return jsonify({"message": "Login realizado com sucesso.", "redirect": url_for("index")})
     return redirect(url_for("index"))
-
-
-@app.route("/dica-senha", methods=["POST"])
-def dica_senha():
-    """Retorna a dica de senha ou status da conta para ajudar o usuário que não consegue entrar."""
-    data = request.get_json(silent=True) or {}
-    username = (data.get("username") or "").strip()
-    if not username:
-        return jsonify({"error": "Digite seu nome de usuário primeiro para ver a dica de senha."}), 400
-
-    user = User.query.filter(db.func.lower(User.username) == username.lower()).first()
-    if not user:
-        return (
-            jsonify(
-                {
-                    "found": False,
-                    "hint": f"O usuário '{username}' ainda não foi cadastrado! Clique em 'Criar conta' para registrar esse usuário com a sua senha (ex: Casa447405).",
-                }
-            ),
-            200,
-        )
-
-    dica = (user.password_hint or "").strip()
-    if dica:
-        texto_dica = f"Dica cadastrada para '{user.username}': {dica}"
-    else:
-        texto_dica = (
-            f"A conta '{user.username}' está cadastrada (sem dica personalizada salva). "
-            "Lembrete: a senha tem no mínimo 8 caracteres e diferencia letras maiúsculas de minúsculas (ex: 'C' maiúsculo em Casa447405)."
-        )
-    return jsonify({"found": True, "hint": texto_dica}), 200
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -401,7 +357,6 @@ def register():
     data = request.get_json(silent=True) or request.form
     username = (data.get("username") or "").strip()
     password = (data.get("password") or "").strip()
-    password_hint = (data.get("password_hint") or "").strip()[:120]
 
     if len(username) < 3 or len(username) > 40 or not re.match(r"^[a-zA-Z0-9_.\-\s]+$", username):
         msg = "O usuário deve ter entre 3 e 40 caracteres (letras, números, espaços, ponto, traço ou sublinhado)."
@@ -410,7 +365,7 @@ def register():
         return render_template("register.html", error=msg), 400
 
     if len(password) < 8:
-        msg = "A senha deve ter no mínimo 8 caracteres (exemplo: Casa447405)."
+        msg = "A senha deve ter no mínimo 8 caracteres."
         if request.is_json:
             return jsonify({"error": msg}), 400
         return render_template("register.html", error=msg), 400
@@ -421,15 +376,20 @@ def register():
             return jsonify({"error": msg}), 409
         return render_template("register.html", error=msg), 409
 
-    if not password_hint:
-        # Gera uma dica automática segura (ex: Começa com 'Ca...' e tem 10 caracteres) sem revelar a senha
-        password_hint = f"Começa com '{password[:2]}...' e possui {len(password)} caracteres"
-
     novo_usuario = User(
         username=username,
         password_hash=generate_password_hash(password, method="scrypt"),
-        password_hint=password_hint,
     )
+    db.session.add(novo_usuario)
+    db.session.commit()
+
+    session.clear()
+    session["user_id"] = novo_usuario.id
+    session["username"] = novo_usuario.username
+
+    if request.is_json:
+        return jsonify({"message": "Conta criada com sucesso.", "redirect": url_for("index")}), 201
+    return redirect(url_for("index"))
     db.session.add(novo_usuario)
     db.session.commit()
 

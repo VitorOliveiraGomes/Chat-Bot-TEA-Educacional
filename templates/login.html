@@ -24,7 +24,6 @@
       <div class="alert-error" role="alert">{{ error }}</div>
       {% endif %}
       <div id="auth-alert" class="alert-error" role="alert" hidden></div>
-      <div id="auth-hint-box" class="alert-hint" role="status" hidden></div>
 
       <form id="login-form" method="POST" action="{{ url_for('login') }}" class="auth-form">
         <div class="field-group">
@@ -41,18 +40,13 @@
         </div>
 
         <div class="field-group">
-          <div class="label-row">
-            <label for="password">Senha</label>
-            <button type="button" class="btn-link-hint" id="btn-ver-dica">
-              Ver dica da senha
-            </button>
-          </div>
+          <label for="password">Senha</label>
           <div class="password-input-wrapper">
             <input
               type="password"
               id="password"
               name="password"
-              placeholder="Ex: Casa447405"
+              placeholder="Digite sua senha"
               autocomplete="current-password"
               minlength="8"
               required
@@ -66,9 +60,6 @@
               Mostrar
             </button>
           </div>
-          <small class="password-helper-text">
-            Dica: A senha tem no mínimo 8 caracteres e diferencia maiúsculas de minúsculas (ex: <strong>Casa447405</strong>). Se for seu primeiro acesso, clique em <strong>Criar conta</strong> abaixo.
-          </small>
         </div>
 
         <button type="submit" class="btn-primary btn-block" id="btn-submit">
