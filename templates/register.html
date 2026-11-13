@@ -43,14 +43,38 @@
 
         <div class="field-group">
           <label for="password">Crie uma senha (mínimo de 8 caracteres)</label>
+          <div class="password-input-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Ex: Casa447405 (mínimo 8 caracteres)"
+              minlength="8"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              class="btn-toggle-password"
+              id="btn-toggle-password"
+              aria-label="Mostrar ou ocultar senha"
+            >
+              Mostrar
+            </button>
+          </div>
+          <small class="password-helper-text" id="password-strength-tip">
+            Formato aceito: pelo menos 8 caracteres (letras e números, ex: <strong>Casa447405</strong>).
+          </small>
+        </div>
+
+        <div class="field-group">
+          <label for="password_hint">Dica da senha (opcional — ajuda a lembrar depois)</label>
           <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Mínimo de 8 caracteres"
-            minlength="8"
-            autocomplete="new-password"
-            required
+            type="text"
+            id="password_hint"
+            name="password_hint"
+            placeholder="Ex: Palavra Casa + números"
+            maxlength="120"
           />
         </div>
 

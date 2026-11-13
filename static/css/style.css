@@ -577,10 +577,76 @@ body {
   gap: 6px;
 }
 
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .field-group label {
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--text-secondary);
+}
+
+.btn-link-hint {
+  background: none;
+  border: none;
+  color: var(--accent-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.btn-link-hint:hover {
+  text-decoration: underline;
+}
+
+.password-input-wrapper {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.password-input-wrapper input {
+  flex: 1;
+}
+
+.btn-toggle-password {
+  background-color: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.btn-toggle-password:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.password-helper-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+.password-helper-text.tip-warning {
+  color: #f6ad55;
+}
+
+.password-helper-text.tip-ok {
+  color: var(--success-color);
+  font-weight: 600;
 }
 
 .field-group input {
@@ -609,6 +675,17 @@ body {
   padding: 10px 14px;
   border-radius: var(--radius-sm);
   font-size: 0.88rem;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.alert-hint {
+  background-color: rgba(59, 130, 246, 0.14);
+  border: 1px solid var(--accent-primary);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
   margin-bottom: 16px;
   text-align: left;
 }

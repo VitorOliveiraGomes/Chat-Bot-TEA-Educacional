@@ -56,11 +56,77 @@ function configurarMenuMobile() {
 }
 
 // ----------------------------------------------------------------------------
-// 3. Autenticação Assíncrona via Fetch API (Login e Registro)
+// 3. Autenticação Assíncrona via Fetch API (Login, Registro e Dica de Senha)
 // ----------------------------------------------------------------------------
 function configurarFormulariosAuth() {
   const loginForm = document.getElementById("login-form");
   const registerForm = document.getElementById("register-form");
+  const btnTogglePassword = document.getElementById("btn-toggle-password");
+  const passwordInput = document.getElementById("password");
+  const btnVerDica = document.getElementById("btn-ver-dica");
+  const hintBox = document.getElementById("auth-hint-box");
+  const strengthTip = document.getElementById("password-strength-tip");
+
+  // Botão Mostrar / Ocultar Senha para evitar erros de digitação
+  if (btnTogglePassword && passwordInput) {
+    btnTogglePassword.addEventListener("click", () => {
+      const estaOculta = passwordInput.type === "password";
+      passwordInput.type = estaOculta ? "text" : "password";
+      btnTogglePassword.textContent = estaOculta ? "Ocultar" : "Mostrar";
+    });
+  }
+
+  // Feedback em tempo real ao digitar a senha no cadastro
+  if (registerForm && passwordInput && strengthTip) {
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      if (!val) {
+        strengthTip.innerHTML =
+          "Formato aceito: pelo menos 8 caracteres (letras e números, ex: <strong>Casa447405</strong>).";
+        strengthTip.className = "password-helper-text";
+      } else if (val.length < 8) {
+        strengthTip.textContent = `Faltam ${8 - val.length} caractere(s) para atingir o mínimo de 8 caracteres.`;
+        strengthTip.className = "password-helper-text tip-warning";
+      } else {
+        strengthTip.textContent = `Senha válida (${val.length} caracteres). Pronta para cadastrar!`;
+        strengthTip.className = "password-helper-text tip-ok";
+      }
+    });
+  }
+
+  // Botão "Ver dica da senha" na tela de Login
+  if (btnVerDica) {
+    btnVerDica.addEventListener("click", async () => {
+      const usernameInput = document.getElementById("username");
+      const username = usernameInput ? usernameInput.value.trim() : "";
+
+      if (!hintBox) return;
+
+      if (!username) {
+        hintBox.textContent =
+          "Digite seu nome de usuário no campo acima primeiro e clique novamente em 'Ver dica da senha'.";
+        hintBox.hidden = false;
+        if (usernameInput) usernameInput.focus();
+        return;
+      }
+
+      try {
+        const res = await fetch("/dica-senha", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username }),
+        });
+        const data = await res.json();
+        hintBox.textContent =
+          data.hint || data.error || "Verifique sua senha (mínimo 8 caracteres, ex: Casa447405).";
+        hintBox.hidden = false;
+      } catch (e) {
+        hintBox.textContent =
+          "Dica: A senha possui no mínimo 8 caracteres e diferencia letras maiúsculas e minúsculas (ex: Casa447405).";
+        hintBox.hidden = false;
+      }
+    });
+  }
 
   const formAtivo = loginForm || registerForm;
   if (!formAtivo) return;
@@ -73,7 +139,8 @@ function configurarFormulariosAuth() {
     const formData = new FormData(formAtivo);
     const payload = {
       username: (formData.get("username") || "").trim(),
-      password: formData.get("password") || "",
+      password: (formData.get("password") || "").trim(),
+      password_hint: (formData.get("password_hint") || "").trim(),
     };
 
     if (alertBox) alertBox.hidden = true;
