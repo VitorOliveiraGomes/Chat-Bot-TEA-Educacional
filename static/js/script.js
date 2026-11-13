@@ -73,6 +73,38 @@ function configurarFormulariosAuth() {
     });
   }
 
+  // Validação dinâmica dos requisitos de senha no formulário de cadastro
+  const reqTip = document.getElementById("password-req-tip");
+  if (registerForm && passwordInput && reqTip) {
+    passwordInput.addEventListener("input", () => {
+      const val = passwordInput.value;
+      if (!val) {
+        reqTip.innerHTML =
+          "Requisitos: mínimo de 8 caracteres, com letras (pelo menos uma maiúscula) e números (ex: <strong>Estudo2026</strong>).";
+        reqTip.className = "password-helper-text";
+        return;
+      }
+
+      const temTamanho = val.length >= 8;
+      const temLetra = /[a-zA-Z]/.test(val);
+      const temMaiuscula = /[A-Z]/.test(val);
+      const temNumero = /[0-9]/.test(val);
+
+      if (temTamanho && temLetra && temMaiuscula && temNumero) {
+        reqTip.textContent = "Senha atende a todos os requisitos!";
+        reqTip.className = "password-helper-text tip-ok";
+      } else {
+        const pendentes = [];
+        if (!temTamanho) pendentes.push(`mínimo 8 caracteres (faltam ${8 - val.length})`);
+        if (!temMaiuscula) pendentes.push("uma letra maiúscula");
+        if (!temNumero) pendentes.push("um número");
+
+        reqTip.textContent = `Atenção: adicione ${pendentes.join(", ")}.`;
+        reqTip.className = "password-helper-text tip-warning";
+      }
+    });
+  }
+
   const formAtivo = loginForm || registerForm;
   if (!formAtivo) return;
 

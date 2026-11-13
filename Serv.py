@@ -370,6 +370,16 @@ def register():
             return jsonify({"error": msg}), 400
         return render_template("register.html", error=msg), 400
 
+    tem_letra = any(c.isalpha() for c in password)
+    tem_numero = any(c.isdigit() for c in password)
+    tem_maiuscula = any(c.isupper() for c in password)
+
+    if not (tem_letra and tem_numero and tem_maiuscula):
+        msg = "A senha deve ter no mínimo 8 caracteres, contendo pelo menos uma letra maiúscula, letras minúsculas e números (exemplo: Estudo2026)."
+        if request.is_json:
+            return jsonify({"error": msg}), 400
+        return render_template("register.html", error=msg), 400
+
     if User.query.filter(db.func.lower(User.username) == username.lower()).first():
         msg = "Este nome de usuário já está cadastrado. Vá para a tela de login para entrar."
         if request.is_json:
@@ -380,16 +390,6 @@ def register():
         username=username,
         password_hash=generate_password_hash(password, method="scrypt"),
     )
-    db.session.add(novo_usuario)
-    db.session.commit()
-
-    session.clear()
-    session["user_id"] = novo_usuario.id
-    session["username"] = novo_usuario.username
-
-    if request.is_json:
-        return jsonify({"message": "Conta criada com sucesso.", "redirect": url_for("index")}), 201
-    return redirect(url_for("index"))
     db.session.add(novo_usuario)
     db.session.commit()
 

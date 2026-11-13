@@ -31,13 +31,13 @@
         </div>
 
         <div class="field-group">
-          <label for="password">Crie uma senha (mínimo de 8 caracteres)</label>
+          <label for="password">Crie uma senha</label>
           <div class="password-input-wrapper">
             <input
               type="password"
               id="password"
               name="password"
-              placeholder="Mínimo de 8 caracteres"
+              placeholder="Ex: Estudo2026"
               minlength="8"
               autocomplete="new-password"
               required
@@ -51,6 +51,9 @@
               Mostrar
             </button>
           </div>
+          <small class="password-helper-text" id="password-req-tip">
+            Requisitos: mínimo de 8 caracteres, com letras (pelo menos uma maiúscula) e números (ex: <strong>Estudo2026</strong>).
+          </small>
         </div>
 
         <button type="submit" class="btn-primary btn-block" id="btn-submit">
